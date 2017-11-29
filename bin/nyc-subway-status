@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+# require "bundler/setup"
+# require "nyc_subway_status"
+
+# NycSubwayStatus::CLI.new.call
+
+puts "Hello World!"
