@@ -20,12 +20,20 @@ eos
 	def new_call(subway_url)
 		browser = Watir::Browser.new
 		browser.goto subway_url
+		# trs = browser.trs
+		sleep(5)
 		doc = Nokogiri::HTML.parse(browser.html)
 		binding.pry
-		# puts doc.css("#subwayDiv img.subwayIcon_123").attribute("alt").text
-		# puts doc.css("div#123 a").text
-		#doc.css("#subwayDiv div div").children[0]
-		#doc.css("#subwayDiv div").children[3]
-		#doc.css(".subwayCategory")[1]
+
+
+		train123name = doc.css("#subwayDiv td")[1].children[0].attribute("alt").value
+		train123status = doc.css("#subwayDiv td")[2].children.children.text
+
+		doc.css("#subwayDiv td").click
+		binding.pry
+		# doc.css("#subwayDiv td")[3].children[0].attribute("alt").value is 456 Subway
+		# 1 is 123, 3 is 456, 5 is 7...
+		# doc.css("#subwayDiv td")[6].children.children.text is Good Service for the 7
+		# if planned work, on new page, need content within <div id="status-contents">
 	end
 end
