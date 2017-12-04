@@ -4,5 +4,3 @@ require "bundler/setup"
 require "nyc_subway_status"
 
 NycSubwayStatus::CLI.new.call
-# NycSubwayStatus::CLI.new.new_call("http://service.mta.info/ServiceStatus/status.html")
-# NycSubwayStatus::CLI.new.new_call("http://alert.mta.info/")

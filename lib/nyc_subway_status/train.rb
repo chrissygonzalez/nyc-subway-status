@@ -19,7 +19,6 @@ class NycSubwayStatus::Train
 			train.url = doc.css("##{line} a").attribute("href").value if doc.css("##{line} a").empty? != true
 			@@all << train
 		}
-		binding.pry
 	end
 
 	def self.all
