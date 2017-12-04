@@ -17,11 +17,16 @@ class NycSubwayStatus::CLI
 	def menu
 		puts "Enter the number of line you'd like to know more about, or enter exit to end this session."
 		input = gets.chomp
-		puts "You entered #{input}."
+		# puts "You entered #{input}."
 		if input == "exit"
 			say_bye
-		else
+		elsif input.to_i < 1 || input.to_i > NycSubwayStatus::Train.all.length
+			puts "Please enter a valid train number."
 			menu
+		else
+			puts NycSubwayStatus::Train.all[input.to_i - 1].name
+			NycSubwayStatus::Train.all[input.to_i - 1].scrape_details
+			# menu
 		end
 	end
 

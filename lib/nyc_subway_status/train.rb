@@ -24,4 +24,14 @@ class NycSubwayStatus::Train
 	def self.all
 		@@all
 	end
+
+	def scrape_details
+		browser = Watir::Browser.new :chrome, headless: true
+		browser.goto "http://alert.mta.info/#{self.url}"
+		sleep(3)
+
+		doc = Nokogiri::HTML.parse(browser.html)
+
+		binding.pry
+	end
 end
