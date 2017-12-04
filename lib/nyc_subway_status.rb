@@ -6,3 +6,4 @@ require "watir"
 require "webdrivers"
 
 require_relative './nyc_subway_status/cli'
+require_relative './nyc_subway_status/train'

@@ -1,24 +1,19 @@
 class NycSubwayStatus::CLI
 
 	def call
-		 puts <<-eos
-Here's the current subway status:
-[1, 2, 3] 		Planned Work
-[4, 5, 6] 		Planned Work
-[7] 			Good Service
-[A, C, E] 		Planned Work
-[B, D, F, M] 		Planned Work
-[G]			Good Service
-[J, Z]			Good Service
-[L]		 	Planned Work
-[N, Q, R]		Planned Work
-[S]			Planned Work
-[Staten Island Railway]	Planned Work
-eos
+		list_trains
+	end
+
+	def list_trains
+		puts "Scraping trains!"
+		NycSubwayStatus::Train.scrape_trains
+	end
+
+	def say_bye
 	end
 
 	def new_call(subway_url)
-		browser = Watir::Browser.new
+		browser = Watir::Browser.new :chrome, headless: true
 		browser.goto subway_url
 		sleep(3)
 
