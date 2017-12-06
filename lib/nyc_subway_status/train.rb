@@ -34,19 +34,30 @@ class NycSubwayStatus::Train
 
 		doc = Nokogiri::HTML.parse(browser.html)
 		planned_work = doc.css("#status_display .plannedWorkDetailLink")
+		delay = doc.css("#status_display .TitleDelay")
 
-		if planned_work.empty? != true
+		if planned_work.empty? != true #maybe should break this out into its own method
 			planned_work.each {|item|
-				# binding.pry
-			puts item.css("b i").text #all caps headers
-			item.css("b img").each { |img|
-				puts img.attribute("alt").text #a single train icon alt text
+				puts item.css("b i").text #all caps headers
+				trains = []
+				item.css("b img").each { |img|
+					trains << train_name_trimmer(img.attribute("alt").text) #a single train icon alt text
+				}
+				# puts trains.join(", ")
+				puts "#{trains.join(", ")} #{item.css("b").children.last.text.strip}"  #message about the trains
 			}
-			puts item.css("b").children.last.text  #message about the trains
-		}
+		elsif delay.empty? != true
+			puts "This train is delayed" #maybe this is unnecessary
 		end
+
 		# binding.pry
+		# thought i would have to handle delays differently from planned work, but seems to be showing up anyway
+		# getting a weird chopped up text thing on F delay, related to station names
 
 		browser.close
+	end
+
+	def train_name_trimmer(text)
+		text[0]
 	end
 end
