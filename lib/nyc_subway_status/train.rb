@@ -35,7 +35,7 @@ class NycSubwayStatus::Train
 		doc = Nokogiri::HTML.parse(browser.html)
 		planned_work = doc.css("#status_display .plannedWorkDetailLink")
 		delay = doc.css("#status_display .TitleDelay")
-
+		# binding.pry
 		if planned_work.empty? != true #maybe should break this out into its own method
 			planned_work.each {|item|
 				puts item.css("b i").text #all caps headers
@@ -48,11 +48,16 @@ class NycSubwayStatus::Train
 			}
 		elsif delay.empty? != true
 			puts "This train is delayed" #maybe this is unnecessary
+			doc.css("#status_display").children.each { |child|
+				if child.is_a? Nokogiri::XML::Text
+					puts child.text
+				elsif child.attribute("name") == "img"
+					puts child.attribute("alt").text
+				else
+					binding.pry
+				end
+			}
 		end
-
-		# binding.pry
-		# thought i would have to handle delays differently from planned work, but seems to be showing up anyway
-		# getting a weird chopped up text thing on F delay, related to station names
 
 		browser.close
 	end

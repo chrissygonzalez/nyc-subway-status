@@ -10,6 +10,7 @@ class NycSubwayStatus::CLI
 	end
 
 	def list_trains
+		puts ""
 		puts "CURRENT MTA SERVICE STATUS"
 		puts "--------------------------"
 		# NycSubwayStatus::Train.scrape_trains
@@ -19,21 +20,25 @@ class NycSubwayStatus::CLI
 	end
 
 	def menu
-		puts "Enter the number of line you'd like to know more about, 'list trains' to get a list of trains and their current status, or 'exit' to end this session."
-		input = gets.chomp
+		puts ""
+		puts ">> Enter a train number for details, 'list' to list all trains, or 'exit' to end this session."
+		puts ""
+		input = gets.chomp.downcase
 
 		if input == "exit"
 			say_bye
-		elsif input == "list trains"
-			call
+		elsif input == "list"
+			list_trains
+			menu
 		elsif input.to_i < 1 || input.to_i > NycSubwayStatus::Train.all.length
 			puts "Please enter a valid train number."
 			menu
 		elsif NycSubwayStatus::Train.all[input.to_i - 1].url == nil
-			puts "This train has good service."
+			puts "The #{NycSubwayStatus::Train.all[input.to_i - 1].name} has good service! No details to report."
 			menu
 		else
-			puts NycSubwayStatus::Train.all[input.to_i - 1].name
+			puts "Getting details for the #{NycSubwayStatus::Train.all[input.to_i - 1].name}..."
+			puts ""
 			NycSubwayStatus::Train.all[input.to_i - 1].scrape_details
 			menu
 		end
