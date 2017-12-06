@@ -36,10 +36,13 @@ class NycSubwayStatus::Train
 		planned_work = doc.css("#status_display .plannedWorkDetailLink")
 
 		if planned_work.empty? != true
-			planned_work.each_with_index {|item, index|
-			puts planned_work[index].css("b i").text #all caps headers
-			puts planned_work[index].css("b img")[0].attribute("alt").text #a single train icon alt text
-			puts planned_work[index].css("b").children.last.text  #message about the trains
+			planned_work.each {|item|
+				# binding.pry
+			puts item.css("b i").text #all caps headers
+			item.css("b img").each { |img|
+				puts img.attribute("alt").text #a single train icon alt text
+			}
+			puts item.css("b").children.last.text  #message about the trains
 		}
 		end
 		# binding.pry
