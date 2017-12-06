@@ -19,6 +19,8 @@ class NycSubwayStatus::Train
 			train.url = doc.css("##{line} a").attribute("href").value if doc.css("##{line} a").empty? != true
 			@@all << train
 		}
+
+		browser.close
 	end
 
 	def self.all
@@ -32,6 +34,17 @@ class NycSubwayStatus::Train
 
 		doc = Nokogiri::HTML.parse(browser.html)
 
+		if doc.css("#status_display .plannedWorkDetailLink").empty? != true
+			doc.css("#status_display .plannedWorkDetailLink b i").text #all caps headers
+			doc.css("#status_display .plannedWorkDetailLink b")[1].children[0].text #also all caps headers
+			doc.css("#status_display .plannedWorkDetailLink b")[1].children.css("img") #array of train icon images
+			doc.css("#status_display .plannedWorkDetailLink b")[1].children.css("img")[0].attribute("alt").text #a single train icon alt text
+			doc.css("#status_display .plannedWorkDetailLink b")[1].children.last #message about the trains
+
+			doc.css("#status_display .plannedWorkDetailLink img") #need to iterate through however many there are?
+		end
 		binding.pry
+
+		browser.close
 	end
 end
