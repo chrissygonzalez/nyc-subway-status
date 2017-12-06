@@ -35,7 +35,7 @@ class NycSubwayStatus::CLI
 		else
 			puts NycSubwayStatus::Train.all[input.to_i - 1].name
 			NycSubwayStatus::Train.all[input.to_i - 1].scrape_details
-			# menu
+			menu
 		end
 	end
 

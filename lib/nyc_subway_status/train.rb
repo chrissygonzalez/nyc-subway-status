@@ -33,17 +33,16 @@ class NycSubwayStatus::Train
 		sleep(3)
 
 		doc = Nokogiri::HTML.parse(browser.html)
+		planned_work = doc.css("#status_display .plannedWorkDetailLink")
 
-		if doc.css("#status_display .plannedWorkDetailLink").empty? != true
-			doc.css("#status_display .plannedWorkDetailLink b i").text #all caps headers
-			doc.css("#status_display .plannedWorkDetailLink b")[1].children[0].text #also all caps headers
-			doc.css("#status_display .plannedWorkDetailLink b")[1].children.css("img") #array of train icon images
-			doc.css("#status_display .plannedWorkDetailLink b")[1].children.css("img")[0].attribute("alt").text #a single train icon alt text
-			doc.css("#status_display .plannedWorkDetailLink b")[1].children.last #message about the trains
-
-			doc.css("#status_display .plannedWorkDetailLink img") #need to iterate through however many there are?
+		if planned_work.empty? != true
+			planned_work.each_with_index {|item, index|
+			puts planned_work[index].css("b i").text #all caps headers
+			puts planned_work[index].css("b img")[0].attribute("alt").text #a single train icon alt text
+			puts planned_work[index].css("b").children.last.text  #message about the trains
+		}
 		end
-		binding.pry
+		# binding.pry
 
 		browser.close
 	end
