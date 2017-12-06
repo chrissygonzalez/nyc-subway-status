@@ -35,6 +35,7 @@ class NycSubwayStatus::Train
 		doc = Nokogiri::HTML.parse(browser.html)
 		planned_work = doc.css("#status_display .plannedWorkDetailLink")
 		delay = doc.css("#status_display .TitleDelay")
+		change = doc.css("#status_display .TitleServiceChange")
 		# binding.pry
 		if planned_work.empty? != true #maybe should break this out into its own method
 			planned_work.each {|item|
@@ -49,12 +50,26 @@ class NycSubwayStatus::Train
 		elsif delay.empty? != true
 			puts "This train is delayed" #maybe this is unnecessary
 			doc.css("#status_display").children.each { |child|
+				# binding.pry
 				if child.is_a? Nokogiri::XML::Text
+					puts child.text.chomp
+				elsif child.name == "img"
+					puts train_name_trimmer(child.attribute("alt").text)
+				elsif child.name == "strong"
 					puts child.text
-				elsif child.attribute("name") == "img"
-					puts child.attribute("alt").text
 				else
-					binding.pry
+					# binding.pry
+				end
+			}
+		elsif change.empty? != true
+			puts "Service Change"
+			doc.css("#status_display").children.each { |child|
+				if child.is_a? Nokogiri::XML::Text
+					puts child.text.chomp
+				elsif child.name == "img"
+					puts train_name_trimmer(child.attribute("alt").text)
+				else
+					# binding.pry
 				end
 			}
 		end
