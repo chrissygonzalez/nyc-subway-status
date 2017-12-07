@@ -1,6 +1,7 @@
 class NycSubwayStatus::CLI
 
 	def initialize
+		puts "Getting trains..."
 		NycSubwayStatus::Train.scrape_trains
 	end
 

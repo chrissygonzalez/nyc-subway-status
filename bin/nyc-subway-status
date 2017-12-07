@@ -3,6 +3,4 @@
 require "bundler/setup"
 require "nyc_subway_status"
 
-puts "Getting trains..."
-puts ""
 NycSubwayStatus::CLI.new.call

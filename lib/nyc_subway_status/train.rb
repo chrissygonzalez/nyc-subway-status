@@ -38,29 +38,10 @@ class NycSubwayStatus::Train
 		change = doc.css("#status_display .TitleServiceChange")
 		# binding.pry
 		if planned_work.empty? != true #maybe should break this out into its own method
-			planned_work.each {|item|
-				puts item.css("b i").text #all caps headers
-				trains = []
-				item.css("b img").each { |img|
-					trains << train_name_trimmer(img.attribute("alt").text) #a single train icon alt text
-				}
-				# puts trains.join(", ")
-				puts "#{trains.join(", ")} #{item.css("b").children.last.text.strip}"  #message about the trains
-			}
+			puts mta_parser(doc.css("#status_display .plannedWorkDetailLink b"))
 		elsif delay.empty? != true
-			puts "This train is delayed" #maybe this is unnecessary
-			doc.css("#status_display").children.each { |child|
-				# binding.pry
-				if child.is_a? Nokogiri::XML::Text
-					puts child.text.chomp
-				elsif child.name == "img"
-					puts train_name_trimmer(child.attribute("alt").text)
-				elsif child.name == "strong"
-					puts child.text
-				else
-					# binding.pry
-				end
-			}
+			puts "Delays"
+			puts mta_parser(doc.css("#status_display"))
 		elsif change.empty? != true
 			puts "Service Change"
 			doc.css("#status_display").children.each { |child|
@@ -75,6 +56,29 @@ class NycSubwayStatus::Train
 		end
 
 		browser.close
+	end
+
+	def mta_parser(collection)
+		message = ""
+
+		collection.children.each { |child|
+			# binding.pry
+			if child.is_a? Nokogiri::XML::Text
+				message += child.text.strip
+			elsif child.name == "img"
+				message += " #{train_name_trimmer(child.attribute("alt").text)} "
+			elsif child.name == "strong" || child.name == "b"
+				message += " #{child.text} "
+			elsif child.name == "i"
+				message += "\n\n#{child.text}"
+			elsif child.name == "br"
+				message += "\n• "
+			else
+				# binding.pry
+			end
+		}
+		# binding.pry
+		message.gsub("  ", " ")
 	end
 
 	def train_name_trimmer(text)
