@@ -39,16 +39,16 @@ class NycSubwayStatus::Train
 
 		if change.empty? != true
 			puts "SERVICE CHANGE"
-			puts mta_parser(doc.css("#status_display")).strip
+			puts "#{mta_parser(doc.css("#status_display"))}\n"
 		end
 
 		if planned_work.empty? != true
-			puts mta_parser(doc.css("#status_display .plannedWorkDetailLink b")).strip
+			puts mta_parser(doc.css("#status_display .plannedWorkDetailLink b"))
 		end
 
 		if delay.empty? != true
 			puts "DELAYS"
-			puts mta_parser(doc.css("#status_display")).strip
+			puts mta_parser(doc.css("#status_display"))
 		end
 
 		browser.close
@@ -59,7 +59,7 @@ class NycSubwayStatus::Train
 
 		collection.children.each { |child|
 			if child.is_a? Nokogiri::XML::Text
-				message += child.text.strip
+				message += child.text
 			elsif child.name == "img"
 				message += " #{train_name_trimmer(child.attribute("alt").text)} "
 			elsif child.name == "strong" || child.name == "b"
@@ -67,17 +67,22 @@ class NycSubwayStatus::Train
 			elsif child.name == "i"
 				message += "\n\n#{child.text}"
 			elsif child.name == "br"
-				message += "\n• "
+				message += "\n"
 			elsif child.name == "p"
 				puts mta_parser(child).strip
 			end
 		}
-		# binding.pry
-		message.gsub(/^\s?[•]?\s?/, "")
-		# m1.gsub(/^$/, "")
+
+		message_formatter(message)
 	end
 
 	def train_name_trimmer(text)
 		text[0]
+	end
+
+	def message_formatter(text)
+		m1 = text.gsub(/^\s/, "")
+		m2 = m1.gsub(/[^,.\&\a-zA-Z0-9]/, " ")
+		m2.gsub(/\s{2,}/, " ")
 	end
 end
