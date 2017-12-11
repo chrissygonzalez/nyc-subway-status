@@ -14,7 +14,7 @@ class NycSubwayStatus::CLI
 		puts ""
 		puts "CURRENT MTA SERVICE STATUS"
 		puts "--------------------------"
-		# NycSubwayStatus::Train.scrape_trains
+
 		NycSubwayStatus::Train.all.each_with_index {|line, index|
 			puts "#{index + 1}. #{line.name} – #{line.status}"
 		}
