@@ -1,6 +1,6 @@
 # NycSubwayStatus
 
-NYC Subway Status is a gem that scrapes the MTA's Emergency Website (http://alert.mta.info/) using Watir and Nokogiri to displaycurrent status and details for New York City's subway system.
+NYC Subway Status is a gem that scrapes the MTA's Emergency Website (http://alert.mta.info/) using Watir and Nokogiri to display current status and details for New York City's subway system.
 
 ## Installation
 
