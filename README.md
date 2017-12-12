@@ -1,28 +1,20 @@
 # NycSubwayStatus
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nyc_subway_status`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+NYC Subway Status is a gem that scrapes the MTA's Emergency Website (http://alert.mta.info/) using Watir and Nokogiri to displaycurrent status and details for New York City's subway system.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'nyc_subway_status'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Installation is as easy as typing
 
     $ gem install nyc_subway_status
 
+then entering the command
+
+	$ nyc-subway-status
+
 ## Usage
 
-TODO: Write usage instructions here
+Enter nyc-subway-status on your command line to get the latest train status. Then enter the number of a train line, 'list' to list all trains, or 'exit' to shut it down.
 
 ## Development
 
@@ -32,7 +24,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/nyc_subway_status. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/chrissygonzalez/nyc_subway_status. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
