@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["chrissygonzalez@gmail.com"]
 
   spec.summary       = "A command line interface for checking alert.mta.info"
-  spec.description   = "I built this gem for the Learn.co CLI gem project"
+  spec.description   = "I built this gem for the Learn.co CLI gem project. Install and enter 'nyc-subway-status' to run."
   spec.homepage      = "https://github.com/chrissygonzalez/nyc-subway-status"
   spec.license       = "MIT"
 
