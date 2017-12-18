@@ -6,10 +6,15 @@ class NycSubwayStatus::Scraper
 
 		doc = Nokogiri::HTML.parse(browser.html)
 
-		NycSubwayStatus::Train.train_constant.each_with_index { |line, index|
-			train = NycSubwayStatus::Train.new(doc.css("#subwayDiv div img")[index].attribute("alt").text,
-											   doc.css("##{line}").text,
-											   doc.css("##{line} a").attribute("href").value if doc.css("##{line} a").empty? != true)
+		NycSubwayStatus::Train.trains_constant.each_with_index { |line, index|
+			if doc.css("##{line} a").empty? != true
+				train = NycSubwayStatus::Train.new(doc.css("#subwayDiv div img")[index].attribute("alt").text,
+												   doc.css("##{line}").text,
+												   doc.css("##{line} a").attribute("href").value)
+			else
+				train = NycSubwayStatus::Train.new(doc.css("#subwayDiv div img")[index].attribute("alt").text,
+												   doc.css("##{line}").text)
+			end
 		}
 
 		browser.close
@@ -24,22 +29,22 @@ class NycSubwayStatus::Scraper
 		planned_work = doc.css("#status_display .plannedWorkDetailLink")
 		delay = doc.css("#status_display .TitleDelay")
 		change = doc.css("#status_display .TitleServiceChange")
+		message = ""
 
 		if change.empty? != true
-			puts "SERVICE CHANGE"
-			puts "#{mta_parser(doc.css("#status_display"))}\n"
+			message = "SERVICE CHANGE\n#{mta_parser(doc.css("#status_display"))}\n"
 		end
 
 		if planned_work.empty? != true
-			puts mta_parser(doc.css("#status_display .plannedWorkDetailLink b"))
+			message = "#{mta_parser(doc.css("#status_display .plannedWorkDetailLink b"))}"
 		end
 
 		if delay.empty? != true
-			puts "DELAYS"
-			puts mta_parser(doc.css("#status_display"))
+			message = "DELAYS\n#{mta_parser(doc.css("#status_display"))}"
 		end
 
 		browser.close
+		message
 	end
 
 	def self.mta_parser(collection)

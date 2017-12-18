@@ -27,7 +27,7 @@ class NycSubwayStatus::CLI
 			say_bye
 		elsif input == "list"
 			call
-		elsif input.to_i < 1 || input.to_i > NycSubwayStatus::Train.all.length
+		elsif input.to_i < 1 || input.to_i > NycSubwayStatus::Train.all.length #input.to_i.between?(1, NycSubwayStatus::Train.all.length)
 			puts "Please enter a valid train number."
 			menu
 		elsif NycSubwayStatus::Train.all[input.to_i - 1].url == nil
@@ -35,7 +35,7 @@ class NycSubwayStatus::CLI
 			menu
 		else
 			puts "Getting details for the #{NycSubwayStatus::Train.all[input.to_i - 1].name}...\n\n"
-			NycSubwayStatus::Scraper.scrape_details(NycSubwayStatus::Train.all[input.to_i - 1].url)
+			puts NycSubwayStatus::Scraper.scrape_details(NycSubwayStatus::Train.all[input.to_i - 1].url)
 			menu
 		end
 	end
