@@ -2,7 +2,7 @@ class NycSubwayStatus::CLI
 
 	def initialize
 		puts "Getting trains..."
-		NycSubwayStatus::Train.scrape_trains
+		NycSubwayStatus::Scraper.scrape_trains
 	end
 
 	def call
@@ -35,7 +35,7 @@ class NycSubwayStatus::CLI
 			menu
 		else
 			puts "Getting details for the #{NycSubwayStatus::Train.all[input.to_i - 1].name}...\n\n"
-			NycSubwayStatus::Train.all[input.to_i - 1].scrape_details
+			NycSubwayStatus::Scraper.scrape_details(NycSubwayStatus::Train.all[input.to_i - 1].url)
 			menu
 		end
 	end
